@@ -1,36 +1,18 @@
 body {
-    background-color: #346388 ;
+	background-color: #346388;
 }
 #myChart {
-    height: "1600px";
-    width: "100%";
-    
+	height: "1600px";
+	width: "100%";
 }
-.chartOuter{
-    background-color: #1F4F74;
-    border: thin solid #507C9D;
+.chartOuter {
+	background-color: #1f4f74;
+	border: thin solid #507c9d;
 }
 h1 {
-    color: #492e09;
-    text-shadow: #8F580C;
+	color: #492e09;
+	text-shadow: #8f580c;
 }
 h3 {
-    color: #463319;
+	color: #463319;
 }
-.rgba-primary-0 { color: rgba( 33, 59,255,1) }	/* Main Primary color */
-.rgba-primary-1 { color: rgba(176,185,255,1) }
-.rgba-primary-2 { color: rgba(131,145,255,1) }
-.rgba-primary-3 { color: rgba(  0, 17,149,1) }
-.rgba-primary-4 { color: rgba(  0, 13,115,1) }
-
-.color-primary-0 { color: #346388 }	/* Main Primary color */
-.color-primary-1 { color: #7FA4C0 }
-.color-primary-2 { color: #507C9D }
-.color-primary-3 { color: #1F4F74 }
-.color-primary-4 { color: #0E3A5C }
-
-.color-complement-0 { color: # }	/* Main Complement color */
-.color-complement-1 { color: #FFD8A3 }
-.color-complement-2 { color: #F5BE73 }
-.color-complement-3 { color: #B57926 }
-.color-complement-4 { color: #8F580C }
