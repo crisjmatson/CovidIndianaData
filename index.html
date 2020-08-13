@@ -7,23 +7,25 @@
 		<link rel="stylesheet" href="apiFirst.css" />
 	</head>
 	<body>
-		<h1>Indiana Cases of COVID-19</h1>
-		<h3>
-			Sourced from Johns Hopkins University Center for Systems Science and
-			Engineering
-		</h3>
-
 		<div class="siteContainer">
 			<div class="pageContainer">
-				<div class="chartOuter">
-					<canvas id="myChart"></canvas>
-				</div>
-				<div class="chartOuter">
-					<div class="chart"></div>
-				</div>
+				<fieldset>
+					<h1>Indiana Cases of COVID-19</h1>
+					<h3>
+						Sourced from Johns Hopkins University Center for Systems Science and
+						Engineering
+					</h3>
+					<div class="chartOuter">
+						<canvas id="myChart"></canvas>
+					</div>
+					<div class="chartOuter">
+						<div class="chart"></div>
+					</div>
+				</fieldset>
 			</div>
-		</div>
+		</div><!-- chart styling from Chart.js -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+		<!-- my js file -->
 		<script src="apiFirst.js"></script>
 	</body>
 </html>

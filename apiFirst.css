@@ -1,6 +1,9 @@
 body {
 	background-color: #346388;
 }
+.pageContainer {
+	text-align: center;
+}
 #myChart {
 	height: "1600px";
 	width: "100%";
@@ -10,9 +13,11 @@ body {
 	border: thin solid #507c9d;
 }
 h1 {
-	color: #492e09;
-	text-shadow: #8f580c;
+	color: #080b298f;
 }
 h3 {
-	color: #463319;
+	color: #22190d69;
+}
+fieldset {
+	background-color: #080b2946;
 }
