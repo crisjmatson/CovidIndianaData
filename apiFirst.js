@@ -2,88 +2,139 @@ let url = "https://api.covid19api.com/live/country/united-states";
 var ctx = document.getElementById("myChart");
 let data;
 let state;
-let indianaNumbers = [];
-let indianaDates = [];
 let date;
-let confirmed;
-let active;
-let recovered;
-let deaths;
+let caseStatus = ["Active", "Confirmed", "Recovered", "Deaths"];
+let indianaCaseFiles = [];
+let indianaDates = [];
+let confirmedCases = [];
+let activeCases = [];
+let recoveredCases = [];
+let deathsCases = [];
 
 fetch(url)
 	.then((resp) => resp.json()) // Transform the data into json
 	.then(function (data) {
 		// data is list of all countries
-		//    console.log(data);
+		//	    console.log(data);
 		getIndiana(data); // call data out of current function to new getIndiana
 	})
-
 	.catch(function () {
-		console.log("try again");
+		//		console.log("not yet");
 	});
 
-function getIndiana(data) {
-	const pullIndiana = data.values();
+function getIndiana(freshJSON) {
+	//function called in initial fetch
+	// console.log(freshJSON);       // full USA data here
+
+	for (file of freshJSON) {
+		//set up for loop to go through array
+		if (file.Province == "Indiana") {
+			//set condition to state
+			indianaCaseFiles.push(file); //add cases matching state to array
+		}
+	} //added IN cases to indianaCaseFiles
+	sortCases(indianaCaseFiles);
+	//	let sortedCases = indianaCaseFiles.forEach(sortCases);
+	//	console.log(sortedCases);
+}
+/*
+	const pullIndiana = Object.values(); // 
 	for (const value of pullIndiana) {
 		if (value.Province == "Indiana") {
-      indianaNumbers.push(value);
-//      getTime(indianaNumbers) -- doesn't work to pass thru data 
+			indianaCaseFiles.push(value);
 		}
 	}
-}
-indianaNumbers.sort(function (a, b) {
-	var dateA = new Date(a.Date),
-		dateB = new Date(b.Date);
-  return dateA - dateB;
-}); //sorting function to have array in order by date property
-console.log(indianaNumbers); //sorted array of indiana data for past month
-
-function getTime(indianaNumbers) {
-const pullDates = indianaNumbers.values();
-	for (const date of pullDates) {
-		if (date.Date == "Indiana") {
-			indianaDates.push(date);
+	sortCases(indianaCaseFiles); //  getTime(indianaCaseFiles); //puts case files out as arg to getTime
+ */
+function sortCases(allCases) {
+	var sorted = allCases.sort((a, b) => {
+		if (a.Date > b.Date) {
+			return 1;
+		} else {
+			return -1;
 		}
-  }
+	});
+	//	console.log(sorted);
+	createDataPointArrays(sorted);
 }
-console.log(Array.isArray(indianaNumbers));  // !!!!
-console.log(indianaNumbers.valueOf(0));
 
+function createDataPointArrays(sortedCases) {
+	activeCases = sortedCases.map((dayRpt) => dayRpt.Active);
+	confirmedCases = sortedCases.map((dayRpt) => dayRpt.Confirmed);
+	recoveredCases = sortedCases.map((dayRpt) => dayRpt.Recovered);
+	deathsCases = sortedCases.map((dayRpt) => dayRpt.Deaths);
+	dateCases = sortedCases.map((dayRpt) => dayRpt.Date);
+	formatDateList = dateCases.map(
+		(date) => date.slice(5, 7)+'/'+date.slice(8, 10)+'/'+date.slice(2, 4));
 
+	/* format(dateCases);
+  0-3, 5-6, 8-9
+  - 5-6, 8-9, 2-3 -
+ "2020-04-13T00:00:00Z" */
 
-
-
-
-// can't access object properties by usual array methods. is 'object' type.
-
-//var first = indianaNumbers.slice(2)
-//console.log(first); ---doesn't work
-
-//console.log(Object.values(indianaNumbers)); //--doesn't work, empty array
-
-// let openIN = [...indianaNumbers] //using spread operator to make copy..?
-// console.log(openIN); //prints empty array.
-
-/* CHART from chartjs.org -- NPM install error pls help
-var myLineChart = new myChart(ctx, {
-  type: 'line',
-  data: data,
-  options: options
-}); */
-
-//  code prior to debug with donovan in power hour 8/11
+	var myChart = new Chart(ctx, {
+		type: "line",
+		data: {
+			labels: formatDateList,
+			caseStatus,
+			datasets: [
+				{
+					label: "Active",
+					data: activeCases,
+					backgroundColor: "#F5BE73",
+					borderColor: "#F5BE73",
+					borderWidth: 1,
+					fill: false,
+				},
+				{
+					label: "Confirmed",
+					data: confirmedCases,
+					backgroundColor: "#D39847",
+					borderColor: "#D39847",
+					borderWidth: 1,
+					fill: false,
+				},
+				{
+					label: "Recovered",
+					data: recoveredCases,
+					backgroundColor: "#B57926",
+					borderColor: "#B57926",
+					borderWidth: 1,
+					fill: false,
+				},
+				{
+					label: "Deaths",
+					data: deathsCases,
+					backgroundColor: "#8F580C",
+					borderColor: "#8F580C",
+					borderWidth: 1,
+					fill: false,
+				},
+			],
+		},
+	});
+}
+//"2020-04-13T00:00:00Z"
 /*
-  function getIndiana(data){ //function with fetch data in json
-    const pullIndiana = data.values(); //names iterator 
-//    console.log(pullIndiana);
-    for (const value of pullIndiana){ // begins for-of loop on json array 
-      if (value.Province == "Indiana"){ // if state is IN
-//        console.log(value);
-        indianaNumbers.push(value); // add to empty array declared above
-//        return indianaNumbers; //send new array of IN data to global scope
-      } /* else {
-        console.log(); //don't need this but it wasn't working without it? 
-      } ; 
+function dateFormat(unFormatted) {
+	let formatted = [];
+	for (mess of unFormatted) {
+		let first = mess.substr(0, 10);
+		let firstSplit = first.split("-");
+		const [year, month, day] = firstSplit;
+		formatted.push(`${month}/${day}/${year}`);
+	}
+	return formatted;
+}
+
+function format(timeStamp){
+  let timeStamped = [];
+  for (case of timeStamp) {
+			let first = case.substr(0, 10);
+			let firstSplit = first.split("-");
+			const [year, month, day] = firstSplit;
+			timeStamped.push(`${month}/${day}/${year}`);
     }
-  };
-  console.log(indianaNumbers); //array of indiana data for past month */
+  return timeStamped;
+};
+    */
