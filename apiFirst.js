@@ -1,4 +1,6 @@
 let url = "https://api.covid19api.com/live/country/united-states";
+const tableDiv = document.querySelector(".tableWrapper");
+const tableElement = document.querySelector(".tableSet");
 var ctx = document.getElementById("myChart");
 let caseStatus = ["Active", "Confirmed", "Recovered", "Deaths"];
 let indianaCaseFiles = [];
@@ -6,10 +8,11 @@ let indianaCaseFiles = [];
 fetch(url)
 	.then((resp) => resp.json())
 	.then(function (data) {
+		//console.log(data);
 		getIndiana(data);
 	})
 	.catch(function () {
-		console.log("error in data response");
+		//		console.log("error in data response");
 	});
 
 function getIndiana(freshJSON) {
@@ -18,6 +21,7 @@ function getIndiana(freshJSON) {
 			indianaCaseFiles.push(file);
 		}
 	}
+	//console.log(indianaCaseFiles[0].Active);
 	sortCases(indianaCaseFiles);
 }
 
@@ -42,7 +46,15 @@ function createDataPointArrays(sortedCases) {
 		(date) =>
 			date.slice(5, 7) + "/" + date.slice(8, 10) + "/" + date.slice(2, 4)
 	);
-
+/* 
+	pushToChart(
+		formatDateList,
+		activeCases,
+		confirmedCases,
+		recoveredCases,
+		deathsCases
+	);
+ */
 	var myChart = new Chart(ctx, {
 		type: "line",
 		data: {
@@ -61,7 +73,7 @@ function createDataPointArrays(sortedCases) {
 					label: "Confirmed",
 					data: confirmedCases,
 					backgroundColor: "#D39847",
-					borderColor: "#D39847",/*  */
+					borderColor: "#D39847" /*  */,
 					borderWidth: 1,
 					fill: false,
 				},
@@ -85,3 +97,22 @@ function createDataPointArrays(sortedCases) {
 		},
 	});
 }
+/* 
+function pushToChart(dateArr, actArr, confArr, recArr, deaArr) {
+	for (i = 0; i <= date.length; i++) {
+		console.log(dateArr[i], actArr[i], confArr[i], recArr[i], deaArr[i]);
+	}
+}
+
+class CovidChartFill {
+	constructor(date, act, conf, rec, dea) {
+		this.date = date;
+		this.act = act;
+		this.conf = conf;
+		this.rec = rec;
+		this.dea = dea;
+	}
+	fillChart(d, a, c, r, x) {
+		console.log(d, a, c, r, x);
+	}
+} */
